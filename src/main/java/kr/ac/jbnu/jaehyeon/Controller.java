@@ -105,7 +105,7 @@ public class Controller {
 
                 if (requestMap.equals(postValueArrayList)){
                     testDBHashMap.put(id, postValueArrayList);
-                    responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+                    responseEntity = new ResponseEntity<>(requestMap, HttpStatus.OK);
                 }
                 else{
                     responseEntity = new ResponseEntity<>("NOT_CONTAIN", HttpStatus.NOT_FOUND);
