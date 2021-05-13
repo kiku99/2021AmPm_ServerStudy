@@ -5,16 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
->>>>>>> origin/master
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class Controller {
-<<<<<<< HEAD
 
     private static HashMap<String, ArrayList<Map<String, Object>>> testDBHashMap = new HashMap<String, ArrayList<Map<String, Object>>>();
 
@@ -91,38 +87,37 @@ public class Controller {
                 responseEntity = new ResponseEntity<>("NOT_CONTAIN", HttpStatus.BAD_REQUEST);
             }
 
-        }
-        else {
+        } else {
             responseEntity = new ResponseEntity<>("NOT_CONTAIN", HttpStatus.BAD_REQUEST);
         }
 
-=======
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
-    public ResponseEntity<?> responseEntity(HttpServletRequest request, @PathVariable String id){
+    public ResponseEntity<?> putResponseEntity(HttpServletRequest request, @PathVariable String id, @RequestBody Map<String, Object> requestMap) {
         ResponseEntity<?> responseEntity = null;
-        Map<String, Object> voMap = null;
 
-        if (id != null && !id.equals("")){
-            voMap = new HashMap<String, Object>();
+        if (!testDBHashMap.isEmpty()) {
+            if (id != null && !id.equals("") && testDBHashMap.containsKey(id)) {
+                ArrayList<Map<String, Object>> postValueArrayList = testDBHashMap.get(id);
 
-            voMap.put("name", "김재현");
-            voMap.put("age", 23);
+                if (requestMap.equals(postValueArrayList)){
+                    testDBHashMap.put(id, postValueArrayList);
+                    responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+                }
+                else{
+                    responseEntity = new ResponseEntity<>("NOT_CONTAIN", HttpStatus.NOT_FOUND);
+                }
+            } else {
+                responseEntity = new ResponseEntity<>("NOT_CONTAIN", HttpStatus.NOT_FOUND);
+            }
 
-            voMap.put("books", new HashMap<String , Object>(){{
-                put("book3", new HashMap<String , Object>(){{
-                    put("name", "디지털공학개론");
-                }});
-                put("book1", "마션");
-                put("book2", "소프트웨어공학개론");
-            }});
-
-            responseEntity = new ResponseEntity<>(voMap, HttpStatus.OK);
+        } else {
+            responseEntity = new ResponseEntity<>("NOT_CONTAIN", HttpStatus.BAD_REQUEST);
         }
-        else{
-            responseEntity = new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
-        }
->>>>>>> origin/master
+
         return responseEntity;
     }
 }
