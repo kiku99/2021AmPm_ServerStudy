@@ -103,7 +103,7 @@ public class Controller {
             if (id != null && !id.equals("") && testDBHashMap.containsKey(id)) {
                 ArrayList<Map<String, Object>> postValueArrayList = testDBHashMap.get(id);
 
-                if (requestMap.equals(postValueArrayList)){
+                if (requestMap.keySet().equals(postValueArrayList)){
                     testDBHashMap.put(id, postValueArrayList);
                     responseEntity = new ResponseEntity<>(requestMap, HttpStatus.OK);
                 }
